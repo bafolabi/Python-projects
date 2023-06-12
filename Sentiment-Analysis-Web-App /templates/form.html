@@ -1,0 +1,55 @@
+<html>
+    <head>
+	<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+        <title>{{ title }} Sentiment Analysis</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <h2> Welcome to COVID-19 Vaccine Sentiment Classifier WebApp </h2>
+        <h3> Single Inferencing.</h3>
+        <form method="POST" action="/" enctype = "multipart/form-data">
+            <textarea name="text1" placeholder="Please enter a sentence ...." rows="10" cols="109"></textarea><br><br>
+            <input class="example_a" type="submit">
+        </form>
+
+        <h3>Batch Inferencing</h3>
+        <form action = "http://localhost:5002/upload" method = "POST" enctype = "multipart/form-data">
+          <input type = "file" name = "file" />
+          <input class="example_a" type = "submit" value = "Submit" />
+       </form>
+        {% if final %}
+        <div>
+          <h1>Result</h1>
+           {% if is_file %}
+            <h3>From the batch data provided for analysis, the statistics is as follows</h3>
+            
+            <table style="width:100%">
+              <tr>
+                <th>SENTIMENT METRIC</th>
+                <th>%</th> 
+              </tr>
+              <tr>
+                <td>Positive</td>
+                <td>{{positive}}</td>
+              </tr>
+              <tr>
+                <td>Negative</td>
+                <td>{{negative}}</td>
+              </tr>
+              <tr><a href="/download?cache_buster={{ cache_buster }}"> <input type="button" value="download csv"> </a></tr>
+            </table>
+
+           {% else %}
+            <h3>The sentiment of {{result}} </h3> 
+          {% endif %}
+            {% else %}
+            <p></p>
+            {% endif %}
+        </div>
+    </body>
+</html>
+
